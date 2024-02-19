@@ -16,4 +16,42 @@
         font-size: clamp(1em, 0.2083vw + 0.9437em, 1.0625em);
         scroll-behavior: smooth;
     }
+
+    .container {
+        margin: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .container {
+            width: 750px;
+        }
+    }
+
+    /* medium */
+    @media screen and (min-width: 992px) {
+        .container {
+            width: 970px;
+        }
+    }
+
+    /* large */
+    @media screen and (min-width: 1200px) {
+        .container {
+            width: 1170px;
+        }
+    }
+
+    .homepage-section {
+        min-height: calc(100vh - 106px);
+    }
+
+    .homepage-header {
+        background-image: url("../public/assets/images/homepage-bg.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: right;
+        background-attachment: fixed;
+    }
 }
