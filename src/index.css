@@ -1,3 +1,4 @@
+@import "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @tailwind base;
 @tailwind components;
@@ -62,4 +63,8 @@
         background-position: left;
         background-attachment: fixed;
     }
+    /* 
+    .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+        @apply h-full;
+    } */
 }
