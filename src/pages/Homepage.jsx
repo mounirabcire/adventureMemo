@@ -20,7 +20,9 @@ function Homepage() {
                         </span>
                     </div>
                     <div>
-                        <Button type="link">Start Tracking</Button>
+                        <Button type="ghost" link={true} to="login">
+                            Start Tracking
+                        </Button>
                     </div>
                 </nav>
                 <section className="homepage-section space-y-30px flex flex-col items-center justify-center mb-30px">
@@ -37,7 +39,9 @@ function Homepage() {
                         </p>
                     </div>
                     <div className="text-center">
-                        <Button>Start Tracking</Button>
+                        <Button link={true} to="/login">
+                            Start Tracking
+                        </Button>
                     </div>
                 </section>
             </div>

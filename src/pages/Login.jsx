@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Button from "../components/Button";
 
 function Login() {
+    const [username, setUsername] = useState("");
     return (
         <section className="section-loginpage min-h-screen flex items-center justify-center">
             <div className="bg-[#000000b9] fixed top-0 left-0 w-full h-screen"></div>
@@ -13,9 +15,16 @@ function Login() {
                         <input
                             type="text"
                             placeholder="username..."
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             className="px-5px py-10px border border-primary outline-none bg-transparent rounded-sm text-white"
                         />
-                        <Button>Enter</Button>
+                        <Button
+                            link={true}
+                            to={`/map?username=${username.toLowerCase()}`}
+                        >
+                            Enter
+                        </Button>
                     </div>
                 </form>
             </div>
