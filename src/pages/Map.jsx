@@ -11,10 +11,12 @@ import { useGeolocation } from "../hooks/useGeolocation.js";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserBar from "../components/UserBar.jsx";
+import Form from "../components/Form.jsx";
 import SideBar from "../components/SideBar.jsx";
 
 function Map() {
     const [position, setPostion] = useState([10, 90]);
+    const [formIsOpen, setFromIsOpen] = useState(false);
 
     // This position is commitg from the user current position.
     const {
@@ -33,8 +35,9 @@ function Map() {
 
     return (
         <div className="h-screen">
-            <SideBar />
             <UserBar />
+            <SideBar />
+            {formIsOpen && <Form setFromIsOpen={setFromIsOpen} />}
             <MapContainer
                 className="h-full z-0"
                 center={position}
@@ -50,7 +53,7 @@ function Map() {
                 </Marker>
 
                 <ChangeMapView position={position} />
-                <ClickMapEvent />
+                <ClickMapEvent setFromIsOpen={setFromIsOpen} />
             </MapContainer>
 
             <div>
@@ -58,7 +61,7 @@ function Map() {
                     event={getCurrPosition}
                     className="px-15px py-10px inline-block shadow-2xl text-white bg-primary rounded-sm font-semibold absolute bottom-30px left-1/2 translate-x-[-50%] z-10"
                 >
-                    Your Location
+                    {loading ? "Loading..." : "Your Location"}
                 </Button>
             </div>
         </div>
@@ -72,12 +75,13 @@ function ChangeMapView({ position }) {
     return null;
 }
 
-function ClickMapEvent() {
+function ClickMapEvent({ setFromIsOpen }) {
     const navigate = useNavigate();
 
     useMapEvent({
         click: (e) => {
             navigate(`?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+            setFromIsOpen(true);
         },
     });
     return null;
