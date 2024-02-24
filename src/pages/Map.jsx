@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     MapContainer,
     Marker,
@@ -6,13 +8,12 @@ import {
     useMap,
     useMapEvent,
 } from "react-leaflet";
-import Button from "../components/Button";
 import { useGeolocation } from "../hooks/useGeolocation.js";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
+import Button from "../components/Button";
 import UserBar from "../components/UserBar.jsx";
-import Form from "../components/Form.jsx";
 import SideBar from "../components/SideBar.jsx";
+import CityForm from "../components/CityForm.jsx";
 
 function Map() {
     const [position, setPostion] = useState([10, 90]);
@@ -37,23 +38,27 @@ function Map() {
         <div className="h-screen">
             <UserBar />
             <SideBar />
-            {formIsOpen && <Form setFromIsOpen={setFromIsOpen} />}
+            {formIsOpen && <CityForm setFromIsOpen={setFromIsOpen} />}
             <MapContainer
                 className="h-full z-0"
                 center={position}
-                zoom={6}
+                zoom={8}
                 scrollWheelZoom={true}
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.fr/hot/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={position}>
+                {/* When wh have the cities data we'll dispaly these components */}
+                {/* <Marker position={position}>
                     <Popup>I'm here in this position</Popup>
-                </Marker>
+                </Marker> */}
 
                 <ChangeMapView position={position} />
-                <ClickMapEvent setFromIsOpen={setFromIsOpen} />
+                <ClickMapEvent
+                    setFromIsOpen={setFromIsOpen}
+                    setPosition={setPostion}
+                />
             </MapContainer>
 
             <div>
@@ -75,12 +80,13 @@ function ChangeMapView({ position }) {
     return null;
 }
 
-function ClickMapEvent({ setFromIsOpen }) {
+function ClickMapEvent({ setFromIsOpen, setPosition }) {
     const navigate = useNavigate();
 
     useMapEvent({
         click: (e) => {
             navigate(`?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+            setPosition([e.latlng.lat, e.latlng.lng]);
             setFromIsOpen(true);
         },
     });
