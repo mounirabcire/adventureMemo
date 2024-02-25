@@ -3,6 +3,8 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Map from "./pages/Map";
 import { action as formAction } from "./components/CityForm";
+import { CityProvider } from "./contexts/CityContext";
+
 function App() {
     const router = createBrowserRouter([
         {
@@ -15,7 +17,11 @@ function App() {
         },
         {
             path: "/map",
-            element: <Map />,
+            element: (
+                <CityProvider>
+                    <Map />
+                </CityProvider>
+            ),
             action: formAction,
         },
     ]);

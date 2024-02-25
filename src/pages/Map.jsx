@@ -14,12 +14,14 @@ import Button from "../components/Button";
 import UserBar from "../components/UserBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import CityForm from "../components/CityForm.jsx";
+import { getCityInfo } from "../services/apiCities.js";
+import { useCity } from "../contexts/CityContext.jsx";
 
 function Map() {
-    const [position, setPostion] = useState([10, 90]);
+    const [position, setPosition] = useState([50, 0]);
     const [formIsOpen, setFromIsOpen] = useState(false);
 
-    // This position is commitg from the user current position.
+    // Get the user's position.
     const {
         position: currentPosition,
         loading,
@@ -27,12 +29,11 @@ function Map() {
         getCurrPosition,
     } = useGeolocation();
 
-    useEffect(() => {
-        if (currentPosition?.lng && currentPosition?.lat) {
-            console.log("effect");
-            setPostion([currentPosition.lat, currentPosition.lng]);
-        }
-    }, [currentPosition?.lat, currentPosition?.lng]);
+    // useEffect(() => {
+    //     if (currentPosition?.lng && currentPosition?.lat) {
+    //         setPosition([currentPosition.lat, currentPosition.lng]);
+    //     }
+    // }, [currentPosition?.lat, currentPosition?.lng]);
 
     return (
         <div className="h-screen">
@@ -49,7 +50,7 @@ function Map() {
                     attribution='&copy; <a href="https://www.openstreetmap.fr/hot/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {/* When wh have the cities data we'll dispaly these components */}
+                {/* When we have the cities data we'll dispaly these components */}
                 {/* <Marker position={position}>
                     <Popup>I'm here in this position</Popup>
                 </Marker> */}
@@ -57,7 +58,7 @@ function Map() {
                 <ChangeMapView position={position} />
                 <ClickMapEvent
                     setFromIsOpen={setFromIsOpen}
-                    setPosition={setPostion}
+                    setPosition={setPosition}
                 />
             </MapContainer>
 
@@ -75,6 +76,7 @@ function Map() {
 
 function ChangeMapView({ position }) {
     const map = useMap();
+    // Whenever the position changes the map view will change.
     map.setView(position, 6);
 
     return null;
@@ -82,10 +84,17 @@ function ChangeMapView({ position }) {
 
 function ClickMapEvent({ setFromIsOpen, setPosition }) {
     const navigate = useNavigate();
+    const {
+        updaters: { updateCity },
+    } = useCity();
 
     useMapEvent({
-        click: (e) => {
+        click: async (e) => {
+            // When clicking on a place on the map we'll get the latitude and longitude of that place.
+            // We pass the latitude and longitude in the URL parameters
             navigate(`?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+            const cityInfo = await getCityInfo(e.latlng.lat, e.latlng.lng);
+            updateCity(cityInfo);
             setPosition([e.latlng.lat, e.latlng.lng]);
             setFromIsOpen(true);
         },
