@@ -1,8 +1,12 @@
 import { Form, redirect, useSearchParams } from "react-router-dom";
 import Button from "./Button";
-import { addCity } from "../services/apiCities";
+import { addCity, getCityInfo } from "../services/apiCities";
+import { useCity } from "../contexts/CityContext";
 
 function CityForm({ setFromIsOpen }) {
+    const {
+        states: { city, country, continent, countryCode },
+    } = useCity();
     const [searchParams] = useSearchParams();
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
@@ -12,13 +16,14 @@ function CityForm({ setFromIsOpen }) {
             <Form method="POST" className="space-y-30px py-30px">
                 <div className="space-y-15px">
                     <div className="space-y-5px">
-                        <label htmlFor="cityName" className="block text-white">
+                        <label htmlFor="city" className="block text-white">
                             City name
                         </label>
                         <input
                             type="text"
-                            id="cityName"
-                            name="cityName"
+                            id="city"
+                            name="city"
+                            defaultValue={city}
                             className="inline-block w-full outline-none rounded-sm bg-transparent border-2 border-primary text-white p-5px"
                         />
                     </div>
@@ -30,6 +35,7 @@ function CityForm({ setFromIsOpen }) {
                             type="date"
                             id="date"
                             name="date"
+                            defaultValue={new Date().toLocaleDateString()}
                             className="inline-block w-full outline-none rounded-sm bg-transparent border-2 border-primary text-white p-5px"
                         />
                     </div>
@@ -50,6 +56,15 @@ function CityForm({ setFromIsOpen }) {
                         name="position"
                         value={JSON.stringify([lat, lng])}
                     />
+                    <input
+                        type="hidden"
+                        name="cityInfo"
+                        value={JSON.stringify({
+                            continent,
+                            country,
+                            countryCode,
+                        })}
+                    />
                 </div>
                 <div className="flex items-center justify-between">
                     <Button>Add</Button>
@@ -61,15 +76,28 @@ function CityForm({ setFromIsOpen }) {
 }
 
 export async function action({ request }) {
+    // When the form is submitted, react router will call the action function and pass in the request that was submitted.
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    const newCity = {
+    let newCity = {
         ...data,
         position: JSON.parse(data.position),
+        cityInfo: JSON.parse(data.cityInfo),
     };
-    await addCity(newCity);
+    const city = await addCity(newCity);
+    console.log(city);
 
-    return redirect("/map");
+    return null;
 }
+
+// export async function loader({ request }) {
+//     const url = new URL(request.url);
+//     console.log(url)
+//     const lat = url.searchParams.get("lat");
+//     const lng = url.searchParams.get("lng");
+//     console.log(lat, lng);
+
+//     return null;
+// }
 
 export default CityForm;
