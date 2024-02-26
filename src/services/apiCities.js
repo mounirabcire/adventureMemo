@@ -31,9 +31,9 @@ export async function getCityInfo(lat, lng) {
             countryCode,
         } = await res.json();
         if (!countryCode)
-            throw new Error(
-                "That doesn't seems to be a city. Click somewhere else. 😉"
-            );
+            return {
+                error: "That doesn't seems to be a city. Click somewhere else. 😉",
+            };
 
         const cityInfo = {
             continent,
