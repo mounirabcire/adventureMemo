@@ -1,15 +1,29 @@
-import { Form, redirect, useSearchParams } from "react-router-dom";
+import { Form, useNavigation, useSearchParams } from "react-router-dom";
 import Button from "./Button";
-import { addCity, getCityInfo } from "../services/apiCities";
+import { addCity } from "../services/apiCities";
 import { useCity } from "../contexts/CityContext";
+import { useEffect, useState } from "react";
 
 function CityForm({ setFromIsOpen }) {
     const {
         states: { city, country, continent, countryCode },
     } = useCity();
+    // This num state is used to count whenever the app is on idle state.
+    const [num, setNum] = useState(0);
+    const navigation = useNavigation();
     const [searchParams] = useSearchParams();
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
+
+    useEffect(() => {
+        //when the app is on idle state so the num state will be incremented by 1.
+        // when this component first mounts the app automatically is on idle state, so (num = 1)
+        if (navigation.state === "idle") setNum((n) => n + 1);
+        // when submitting, the the app state will change, and it'll triger this effect, then nothing will happen, then teh app state will be back to the idle state, (num = 2)
+        if (num === 2) setFromIsOpen(false);
+        // I didn't want to add the num state as dependency because whenever the num state changes it'll triger this effect (infinite loop until the num will be 2). 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigation.state, setFromIsOpen]);
 
     return (
         <div className="w-[350px] min-h-[300px] backdrop-blur-sm rounded-sm bg-[#00000080] flex items-center justify-center absolute z-10 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
@@ -67,8 +81,17 @@ function CityForm({ setFromIsOpen }) {
                     />
                 </div>
                 <div className="flex items-center justify-between">
-                    <Button>Add</Button>
-                    <Button event={() => setFromIsOpen(false)}>Close</Button>
+                    <Button>
+                        {navigation.state === "submitting"
+                            ? "Adding..."
+                            : "Add"}
+                    </Button>
+                    <div
+                        onClick={() => setFromIsOpen(false)}
+                        className="px-15px py-10px text-white inline-block bg-primary rounded-sm font-semibold cursor-pointer"
+                    >
+                        Close
+                    </div>
                 </div>
             </Form>
         </div>
@@ -79,7 +102,7 @@ export async function action({ request }) {
     // When the form is submitted, react router will call the action function and pass in the request that was submitted.
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
-    let newCity = {
+    const newCity = {
         ...data,
         position: JSON.parse(data.position),
         cityInfo: JSON.parse(data.cityInfo),
