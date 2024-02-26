@@ -93,8 +93,16 @@ function ClickMapEvent({ setFromIsOpen, setPosition }) {
             // When clicking on a place on the map we'll get the latitude and longitude of that place.
             // We pass the latitude and longitude in the URL parameters
             navigate(`?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+
             const cityInfo = await getCityInfo(e.latlng.lat, e.latlng.lng);
+            console.log(cityInfo)
+            // If the user clicked somewhere in the map that is not a city (clicking on a sea) so we'll return an error.
+            if ( cityInfo?.error !== undefined && cityInfo?.error !== "") {
+                alert(cityInfo?.error);
+                return;
+            }
             updateCity(cityInfo);
+
             setPosition([e.latlng.lat, e.latlng.lng]);
             setFromIsOpen(true);
         },
