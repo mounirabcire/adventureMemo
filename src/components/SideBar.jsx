@@ -1,5 +1,6 @@
 import { useState } from "react";
 import logo from "../../public/assets/images/logo.svg";
+import { Link, Outlet } from "react-router-dom";
 function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -17,12 +18,21 @@ function SideBar() {
                         alt="Logo"
                     />
                 </div>
-                <nav className="text-white">
-                    <ul className="flex items-center justify-center gap-90px">
-                        <li>Cities</li>
-                        <li>Countries</li>
-                    </ul>
-                </nav>
+                <div>
+                    <nav className="text-white">
+                        <ul className="flex items-center justify-center gap-90px">
+                            <li>
+                                <Link to="/map/cities">Cities</Link>
+                            </li>
+                            <li>
+                                <Link to="/map/countries">Countries</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div>
+                        <Outlet />
+                    </div>
+                </div>
             </div>
             {isOpen === true ? (
                 <div

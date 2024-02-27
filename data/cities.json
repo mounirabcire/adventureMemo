@@ -59,6 +59,21 @@
         "country": "Algeria",
         "countryCode": "DZ"
       }
+    },
+    {
+      "id": "45a2",
+      "city": "London",
+      "date": "2024-02-08",
+      "notes": "good experience!",
+      "position": [
+        "51.50874245880335",
+        "-0.10986328125000001"
+      ],
+      "cityInfo": {
+        "continent": "Europe",
+        "country": "United Kingdom of Great Britain and Northern Ireland (the)",
+        "countryCode": "GB"
+      }
     }
   ]
 }
