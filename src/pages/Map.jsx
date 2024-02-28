@@ -19,7 +19,8 @@ import { useCity } from "../contexts/CityContext.jsx";
 
 function Map() {
     const [position, setPosition] = useState([50, 0]);
-    const [formIsOpen, setFromIsOpen] = useState(false);
+    const [formIsOpen, setFormIsOpen] = useState(false);
+    const [sideBarisOpen, setSideBarIsOpen] = useState(false);
 
     // Get the user's position.
     const {
@@ -38,8 +39,12 @@ function Map() {
     return (
         <div className="h-screen">
             <UserBar />
-            <SideBar />
-            {formIsOpen && <CityForm setFromIsOpen={setFromIsOpen} />}
+            <SideBar
+                setFormIsOpen={setFormIsOpen}
+                isOpen={sideBarisOpen}
+                setIsOpen={setSideBarIsOpen}
+            />
+            {formIsOpen && <CityForm setFormIsOpen={setFormIsOpen} />}
             <MapContainer
                 className="h-full z-0"
                 center={position}
@@ -57,8 +62,9 @@ function Map() {
 
                 <ChangeMapView position={position} />
                 <ClickMapEvent
-                    setFromIsOpen={setFromIsOpen}
+                    setFormIsOpen={setFormIsOpen}
                     setPosition={setPosition}
+                    setSideBarIsOpen={setSideBarIsOpen}
                 />
             </MapContainer>
 
@@ -82,7 +88,7 @@ function ChangeMapView({ position }) {
     return null;
 }
 
-function ClickMapEvent({ setFromIsOpen, setPosition }) {
+function ClickMapEvent({ setFormIsOpen, setPosition, setSideBarIsOpen }) {
     const navigate = useNavigate();
     const {
         updaters: { updateCity },
@@ -92,19 +98,20 @@ function ClickMapEvent({ setFromIsOpen, setPosition }) {
         click: async (e) => {
             // When clicking on a place on the map we'll get the latitude and longitude of that place.
             // We pass the latitude and longitude in the URL parameters
-            navigate(`?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+            navigate(`/map?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
 
             const cityInfo = await getCityInfo(e.latlng.lat, e.latlng.lng);
-            console.log(cityInfo)
+            console.log(cityInfo);
             // If the user clicked somewhere in the map that is not a city (clicking on a sea) so we'll return an error.
-            if ( cityInfo?.error !== undefined && cityInfo?.error !== "") {
+            if (cityInfo?.error !== undefined && cityInfo?.error !== "") {
                 alert(cityInfo?.error);
                 return;
             }
             updateCity(cityInfo);
 
             setPosition([e.latlng.lat, e.latlng.lng]);
-            setFromIsOpen(true);
+            setFormIsOpen(true);
+            setSideBarIsOpen(false);
         },
     });
     return null;

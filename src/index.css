@@ -63,8 +63,27 @@
         background-position: left;
         background-attachment: fixed;
     }
-    /* 
-    .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-        @apply h-full;
-    } */
+
+    .city h3 {
+        transition: color 0.2s;
+    }
+
+    .city img {
+        transition: all 0.2s ease-in;
+    }
+
+    .city:hover img {
+        width: 100%;
+    }
+
+    .city:hover h3 {
+        @apply text-white;
+        @apply bg-black;
+        @apply px-2 rounded-md;
+    }
+
+    .cityCard {
+        position: relative;
+        overflow: hidden;
+    }
 }

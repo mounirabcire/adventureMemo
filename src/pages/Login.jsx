@@ -21,7 +21,7 @@ function Login() {
                         />
                         <Button
                             link={true}
-                            to={`/map?username=${username.toLowerCase()}`}
+                            to='/map'
                         >
                             Enter
                         </Button>

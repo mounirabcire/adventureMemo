@@ -1,5 +1,4 @@
 import {
-    Navigate,
     RouterProvider,
     createBrowserRouter,
 } from "react-router-dom";
@@ -8,12 +7,13 @@ import Login from "./pages/Login";
 import Map from "./pages/Map";
 import { action as formAction } from "./components/CityForm";
 import { CityProvider } from "./contexts/CityContext";
-import Cities from "./pages/Cities";
+import Cities, { loader as citiesLoader } from "./pages/Cities";
 import Countries from "./pages/Countries";
-import City from "./pages/City";
+import City, {loader as cityLoader} from "./pages/City";
 
+function App() { 
+    //FIXME: We can add the same city multiple times.
 
-function App() {
     const router = createBrowserRouter([
         {
             path: "/",
@@ -25,6 +25,7 @@ function App() {
         },
         {
             path: "/map",
+
             element: (
                 <CityProvider>
                     <Map />
@@ -35,11 +36,13 @@ function App() {
                 {
                     path: "/map/cities",
                     element: <Cities />,
+                    loader: citiesLoader,
                 },
                 {
                     path: "/map/cities/:id",
                     element: <City />,
-                }
+                    loader: cityLoader,
+                },
                 {
                     path: "/map/countries",
                     element: <Countries />,

@@ -4,7 +4,7 @@ import { addCity } from "../services/apiCities";
 import { useCity } from "../contexts/CityContext";
 import { useEffect, useState } from "react";
 
-function CityForm({ setFromIsOpen }) {
+function CityForm({ setFormIsOpen }) {
     const {
         states: { city, country, continent, countryCode },
     } = useCity();
@@ -20,10 +20,10 @@ function CityForm({ setFromIsOpen }) {
         // when this component first mounts the app automatically is on idle state, so (num = 1)
         if (navigation.state === "idle") setNum((n) => n + 1);
         // when submitting, the the app state will change, and it'll triger this effect, then nothing will happen, then teh app state will be back to the idle state, (num = 2)
-        if (num === 2) setFromIsOpen(false);
+        if (num === 2) setFormIsOpen(false);
         // I didn't want to add the num state as dependency because whenever the num state changes it'll triger this effect (infinite loop until the num will be 2). 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [navigation.state, setFromIsOpen]);
+    }, [navigation.state, setFormIsOpen]);
 
     return (
         <div className="w-[350px] min-h-[300px] backdrop-blur-sm rounded-sm bg-[#00000080] flex items-center justify-center absolute z-10 top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
@@ -38,6 +38,7 @@ function CityForm({ setFromIsOpen }) {
                             id="city"
                             name="city"
                             defaultValue={city}
+                            required
                             className="inline-block w-full outline-none rounded-sm bg-transparent border-2 border-primary text-white p-5px"
                         />
                     </div>
@@ -50,6 +51,7 @@ function CityForm({ setFromIsOpen }) {
                             id="date"
                             name="date"
                             defaultValue={new Date().toLocaleDateString()}
+                            required
                             className="inline-block w-full outline-none rounded-sm bg-transparent border-2 border-primary text-white p-5px"
                         />
                     </div>
@@ -87,7 +89,7 @@ function CityForm({ setFromIsOpen }) {
                             : "Add"}
                     </Button>
                     <div
-                        onClick={() => setFromIsOpen(false)}
+                        onClick={() => setFormIsOpen(false)}
                         className="px-15px py-10px text-white inline-block bg-primary rounded-sm font-semibold cursor-pointer"
                     >
                         Close

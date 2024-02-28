@@ -1,8 +1,7 @@
-import { useState } from "react";
 import logo from "../../public/assets/images/logo.svg";
-import { Link, Outlet } from "react-router-dom";
-function SideBar() {
-    const [isOpen, setIsOpen] = useState(false);
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+function SideBar({ isOpen, setIsOpen, setFormIsOpen }) {
+    const navigate = useNavigate();
 
     return (
         <div
@@ -22,28 +21,49 @@ function SideBar() {
                     <nav className="text-white">
                         <ul className="flex items-center justify-center gap-90px">
                             <li>
-                                <Link to="/map/cities">Cities</Link>
+                                <NavLink
+                                    to="/map/cities"
+                                    className={({ isActive }) =>
+                                        isActive ? "text-primary" : ""
+                                    }
+                                >
+                                    Cities
+                                </NavLink>
                             </li>
                             <li>
-                                <Link to="/map/countries">Countries</Link>
+                                <NavLink
+                                    to="/map/countries"
+                                    className={({ isActive }) =>
+                                        isActive ? "text-primary" : ""
+                                    }
+                                >
+                                    Countries
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>
-                    <div>
+                    <div className="mt-30px">
                         <Outlet />
                     </div>
                 </div>
             </div>
             {isOpen === true ? (
                 <div
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                        setIsOpen(false);
+                        navigate("/map");
+                    }}
                     className="text-white p-5px pl-15px rounded-tr-xl rounded-br-xl absolute top-1/2 right-[-37px] bg-black flex items-center justify-center cursor-pointer"
                 >
                     &larr;
                 </div>
             ) : (
                 <div
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => {
+                        setIsOpen(true);
+                        navigate("/map/cities");
+                        setFormIsOpen(false);
+                    }}
                     className="text-white p-5px pl-15px rounded-tr-xl rounded-br-xl absolute top-1/2 right-[-37px] bg-black flex items-center justify-center cursor-pointer transition-all"
                 >
                     &rarr;
