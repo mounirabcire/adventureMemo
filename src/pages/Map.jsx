@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import {
     MapContainer,
-    Marker,
-    Popup,
     TileLayer,
     useMap,
     useMapEvent,
@@ -14,13 +12,15 @@ import Button from "../components/Button";
 import UserBar from "../components/UserBar.jsx";
 import SideBar from "../components/SideBar.jsx";
 import CityForm from "../components/CityForm.jsx";
-import { getCityInfo } from "../services/apiCities.js";
+import { fetchCities, getCityInfo } from "../services/apiCities.js";
 import { useCity } from "../contexts/CityContext.jsx";
+import CityMapPosition from "../components/CityMapPosition.jsx";
 
 function Map() {
     const [position, setPosition] = useState([50, 0]);
     const [formIsOpen, setFormIsOpen] = useState(false);
     const [sideBarisOpen, setSideBarIsOpen] = useState(false);
+    const cities = useLoaderData();
 
     // Get the user's position.
     const {
@@ -55,10 +55,14 @@ function Map() {
                     attribution='&copy; <a href="https://www.openstreetmap.fr/hot/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {/* When we have the cities data we'll dispaly these components */}
-                {/* <Marker position={position}>
-                    <Popup>I'm here in this position</Popup>
-                </Marker> */}
+                {cities.length !== 0 &&
+                    cities.map((city) => (
+                        <CityMapPosition
+                            position={city.position}
+                            city={city.city}
+                            key={city.id}
+                        />
+                    ))}
 
                 <ChangeMapView position={position} />
                 <ClickMapEvent
@@ -101,7 +105,7 @@ function ClickMapEvent({ setFormIsOpen, setPosition, setSideBarIsOpen }) {
             navigate(`/map?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
 
             const cityInfo = await getCityInfo(e.latlng.lat, e.latlng.lng);
-            console.log(cityInfo);
+
             // If the user clicked somewhere in the map that is not a city (clicking on a sea) so we'll return an error.
             if (cityInfo?.error !== undefined && cityInfo?.error !== "") {
                 alert(cityInfo?.error);
@@ -115,6 +119,12 @@ function ClickMapEvent({ setFormIsOpen, setPosition, setSideBarIsOpen }) {
         },
     });
     return null;
+}
+
+export async function loader() {
+    const cities = await fetchCities();
+
+    return cities;
 }
 
 export default Map;

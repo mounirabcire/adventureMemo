@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
-import Map from "./pages/Map";
+import Map, {loader as mapLoader} from "./pages/Map";
 import { action as formAction } from "./components/CityForm";
 import { CityProvider } from "./contexts/CityContext";
 import Cities, { loader as citiesLoader } from "./pages/Cities";
@@ -25,7 +25,7 @@ function App() {
         },
         {
             path: "/map",
-
+            loader: mapLoader,
             element: (
                 <CityProvider>
                     <Map />

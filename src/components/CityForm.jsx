@@ -109,8 +109,7 @@ export async function action({ request }) {
         position: JSON.parse(data.position),
         cityInfo: JSON.parse(data.cityInfo),
     };
-    const city = await addCity(newCity);
-    console.log(city);
+    await addCity(newCity);
 
     return null;
 }
