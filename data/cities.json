@@ -1,3 +1,124 @@
 {
-    "cities": []
+  "cities": [
+    {
+      "id": "ebc1",
+      "city": "Algiers",
+      "date": "2024-02-01",
+      "notes": "wow!",
+      "position": [
+        "36.70365959719456",
+        "3.0761718750000004"
+      ],
+      "cityInfo": {
+        "continent": "Africa",
+        "country": "Algeria",
+        "countryCode": "DZ"
+      }
+    },
+    {
+      "id": "c56b",
+      "city": "Constantine",
+      "date": "2024-02-10",
+      "notes": "The best forever!",
+      "position": [
+        "36.421282443649496",
+        "6.701660156250001"
+      ],
+      "cityInfo": {
+        "continent": "Africa",
+        "country": "Algeria",
+        "countryCode": "DZ"
+      }
+    },
+    {
+      "id": "b4ca",
+      "city": "Palermo",
+      "date": "2024-02-22",
+      "notes": "The heart",
+      "position": [
+        "38.16911413556086",
+        "13.337402343750002"
+      ],
+      "cityInfo": {
+        "continent": "Europe",
+        "country": "Italy",
+        "countryCode": "IT"
+      }
+    },
+    {
+      "id": "aa22",
+      "city": "Belgrade",
+      "date": "2024-02-10",
+      "notes": "I had a lot of fun ",
+      "position": [
+        "44.77793589631623",
+        "20.368652343750004"
+      ],
+      "cityInfo": {
+        "continent": "Europe",
+        "country": "Serbia",
+        "countryCode": "RS"
+      }
+    },
+    {
+      "id": "0e36",
+      "city": "Kabul",
+      "date": "2024-02-14",
+      "notes": "The heart",
+      "position": [
+        "34.52466147177175",
+        "69.25781250000001"
+      ],
+      "cityInfo": {
+        "continent": "Asia",
+        "country": "Afghanistan",
+        "countryCode": "AF"
+      }
+    },
+    {
+      "id": "6ad7",
+      "city": "Basrah",
+      "date": "2024-02-22",
+      "notes": "The best forever!",
+      "position": [
+        "30.486550842588485",
+        "47.81250000000001"
+      ],
+      "cityInfo": {
+        "continent": "Asia",
+        "country": "Iraq",
+        "countryCode": "IQ"
+      }
+    },
+    {
+      "id": "20c3",
+      "city": "Shibin al Qanaţir",
+      "date": "2024-02-03",
+      "notes": "The best forever!",
+      "position": [
+        "30.221101852485987",
+        "31.289062500000004"
+      ],
+      "cityInfo": {
+        "continent": "Africa",
+        "country": "Egypt",
+        "countryCode": "EG"
+      }
+    },
+    {
+      "id": "3e2d",
+      "city": "Ash Shinan",
+      "date": "2024-02-01",
+      "notes": "The best forever!",
+      "position": [
+        "27.059125784374068",
+        "42.5390625"
+      ],
+      "cityInfo": {
+        "continent": "Asia",
+        "country": "Saudi Arabia",
+        "countryCode": "SA"
+      }
+    }
+  ]
 }

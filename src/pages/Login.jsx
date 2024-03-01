@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { useUser } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState("");
+    const {
+        updaters: { handleLogin },
+        states: { isAuthenticated },
+    } = useUser();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(isAuthenticated);
+        if (isAuthenticated) {
+            navigate("/map", { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+
     return (
         <section className="section-loginpage min-h-screen flex items-center justify-center">
             <div className="bg-[#000000b9] fixed top-0 left-0 w-full h-screen"></div>
@@ -16,12 +31,17 @@ function Login() {
                             type="text"
                             placeholder="username..."
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) =>
+                                setUsername(e.target.value.toUpperCase())
+                            }
                             className="px-5px py-10px border border-primary outline-none bg-transparent rounded-sm text-white"
                         />
                         <Button
-                            link={true}
-                            to='/map'
+                            event={(e) => {
+                                e.preventDefault();
+                                handleLogin(username.trim());
+                                setUsername("");
+                            }}
                         >
                             Enter
                         </Button>
