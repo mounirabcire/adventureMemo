@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState("");
+
     const {
-        updaters: { handleLogin },
-        states: { isAuthenticated },
+        updaters: { handleLogin, handleSetError },
+        states: { isAuthenticated, error },
     } = useUser();
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(isAuthenticated);
         if (isAuthenticated) {
             navigate("/map", { replace: true });
         }
@@ -25,15 +25,16 @@ function Login() {
                 <h2 className="text-h2 text-secondary font-bold">
                     Adventure Awaits - Login Here
                 </h2>
-                <form>
+                <form className="space-y-5px">
                     <div className="space-x-15px">
                         <input
                             type="text"
                             placeholder="username..."
                             value={username}
-                            onChange={(e) =>
-                                setUsername(e.target.value.toUpperCase())
-                            }
+                            onChange={(e) => {
+                                setUsername(e.target.value.toUpperCase());
+                                handleSetError("");
+                            }}
                             className="px-5px py-10px border border-primary outline-none bg-transparent rounded-sm text-white"
                         />
                         <Button
@@ -46,6 +47,13 @@ function Login() {
                             Enter
                         </Button>
                     </div>
+                    {error !== "" && (
+                        <div>
+                            <p className="text-red-500">
+                                The username is required
+                            </p>
+                        </div>
+                    )}
                 </form>
             </div>
         </section>

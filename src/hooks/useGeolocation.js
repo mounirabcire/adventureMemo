@@ -6,7 +6,7 @@ function useGeolocation() {
     const [loading, setLoading] = useState(false);
 
     function getCurrPosition() {
-        // before getting the position the we'll set the error state back to the original state, if there was an error before.
+        // before getting the position we'll set the error state back to the original state, if there was an error before.
         setError("");
 
         // If the user browser doesn't support geolocation

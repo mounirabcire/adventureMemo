@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 const initialState = {
     username: "",
+    error: "",
     isAuthenticated: false,
 };
 
@@ -15,6 +16,16 @@ function reducer(state, action) {
                 username: action.payload,
                 isAuthenticated: true,
             };
+        case "user/error":
+            return {
+                ...state,
+                error: action.payload,
+            };
+        case "user/setError":
+            return {
+                ...state,
+                error: "",
+            };
         default:
             return { ...state };
     }
@@ -25,14 +36,24 @@ function UserProvider({ children }) {
     const navigate = useNavigate();
 
     function handleLogin(username) {
-        if (!username) return;
+        if (!username) {
+            dispatch({
+                type: "user/error",
+                payload: "The username is required",
+            });
+            return;
+        }
         dispatch({ type: "user/login", payload: username });
         navigate("/map");
     }
 
+    function handleSetError() {
+        dispatch({ type: "user/setError" });
+    }
+
     return (
         <UserContext.Provider
-            value={{ states: { ...state }, updaters: { handleLogin } }}
+            value={{ states: { ...state }, updaters: { handleLogin, handleSetError } }}
         >
             {children}
         </UserContext.Provider>

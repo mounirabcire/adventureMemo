@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import {
     MapContainer,
+    Marker,
+    Popup,
     TileLayer,
     useMap,
     useMapEvent,
@@ -26,15 +28,14 @@ function Map() {
     const {
         position: currentPosition,
         loading,
-        error,
         getCurrPosition,
     } = useGeolocation();
 
-    // useEffect(() => {
-    //     if (currentPosition?.lng && currentPosition?.lat) {
-    //         setPosition([currentPosition.lat, currentPosition.lng]);
-    //     }
-    // }, [currentPosition?.lat, currentPosition?.lng]);
+    useEffect(() => {
+        if (currentPosition?.lng && currentPosition?.lat) {
+            setPosition([currentPosition.lat, currentPosition.lng]);
+        }
+    }, [currentPosition?.lat, currentPosition?.lng]);
 
     return (
         <div className="h-screen">

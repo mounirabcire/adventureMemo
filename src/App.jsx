@@ -1,7 +1,6 @@
 import {
     RouterProvider,
     createBrowserRouter,
-    useLocation,
 } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
@@ -13,12 +12,10 @@ import Countries from "./pages/Countries";
 import City, { loader as cityLoader } from "./pages/City";
 import { UserProvider } from "./contexts/UserContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AnimatePresence } from "framer-motion";
-import PageTransition from "./components/PageTransition";
+import Error from "./components/Error";
 
 function App() {
     //FIXME: We can add the same city multiple times.
-    //TODO: we should the current location of the user.
 
     const router = createBrowserRouter([
         {
@@ -27,19 +24,16 @@ function App() {
                 // if I dont wrapp the homepage within the UserProvider, the useProvideer will lose it's data and back to the initial state.
                 // Because if i try to go to the login page instead of navigate to the map page beacause the user is already authenticated, it'll set the state back to the initial state (UserProvider first time mouts! ==> inside the login page)
                 <UserProvider>
-                    <PageTransition>
                         <Homepage />,
-                    </PageTransition>
                 </UserProvider>
             ),
+            errorElement: <Error />,
         },
         {
             path: "/login",
             element: (
                 <UserProvider>
-                    <PageTransition>
                         <Login />
-                    </PageTransition>
                 </UserProvider>
             ),
         },
