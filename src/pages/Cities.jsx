@@ -6,7 +6,7 @@ function Cities() {
     const cities = useLoaderData();
     
     return (
-        <div className="space-y-15px">
+        <div className="space-y-15px relative max-h-[400px] pb-5px overflow-hidden overflow-y-scroll">
             {cities.map((city, index) => (
                 <CityItem city={city} key={index} />
             ))}

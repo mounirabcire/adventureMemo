@@ -27,7 +27,7 @@ function Countries() {
     }, [fetcher]);
 
     return (
-        <div className="flex flex-wrap gap-15px">
+        <div className="flex flex-wrap gap-15px max-h-[400px] pb-5px overflow-hidden overflow-y-scroll">
             {countries.map((country) => (
                 <CountryItem country={country} key={country.countryCode} />
             ))}

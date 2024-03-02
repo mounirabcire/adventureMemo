@@ -87,7 +87,7 @@
         overflow: hidden;
     }
 
-    .country::before{
+    .country::before {
         content: "";
         position: absolute;
         top: 0;
@@ -96,6 +96,6 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.7);
         z-index: 0;
-        @apply rounded-md
+        @apply rounded-md;
     }
 }

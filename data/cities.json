@@ -119,6 +119,21 @@
         "country": "Saudi Arabia",
         "countryCode": "SA"
       }
+    },
+    {
+      "id": "0354",
+      "city": "Birr",
+      "date": "2024-03-14",
+      "notes": "",
+      "position": [
+        "53.31774904749089",
+        "-7.976074218750001"
+      ],
+      "cityInfo": {
+        "continent": "Europe",
+        "country": "Ireland",
+        "countryCode": "IE"
+      }
     }
   ]
 }

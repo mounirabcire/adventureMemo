@@ -60,6 +60,7 @@ function Map() {
                         <CityMapPosition
                             position={city.position}
                             city={city.city}
+                            countryCode={city.cityInfo.countryCode}
                             key={city.id}
                         />
                     ))}
