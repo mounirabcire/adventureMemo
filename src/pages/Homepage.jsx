@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../../public/assets/images/logo.svg";
 import Button from "../components/Button";
-import { AnimatePresence } from "framer-motion";
 
 function Homepage() {
     return (
