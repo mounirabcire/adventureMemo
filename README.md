@@ -20,7 +20,7 @@
 
 ## Running the Project 🚦
 1. Clone the repository to your machine:
-`https://github.com/mounirabcire/myBanki.git`
+`https://github.com/mounirabcire/adventureMemo.git`
 
 2. Install dependencies:
 `cd adventureMemo` `npm install`
