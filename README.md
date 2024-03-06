@@ -1,6 +1,6 @@
 # adventureMemo
 
-## About this project
+## About this project 🗺️
 **adventureMemo** is a simple React web application that allows users to manage their adventure memories. 
 
 ## Technologies 🛠️
